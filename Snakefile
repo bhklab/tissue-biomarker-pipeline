@@ -1,37 +1,40 @@
+import pandas as pd
 
-# snakemake --use-envmodules
+pset_mapping = {
+    "CTRPv2": "CTRPv2-unfiltered",
+    "GDSC2": "GDSC_2020(v2-8.2)_unfiltered_u133a",
+    "GDSC1": "GDSC1_unfiltered_oldarray",
+    "CCLE": "CCLE_2015_unfiltered",
+    "GRAY": "GRAY_2017",
+    "UHNBreast": "UHNBreast_2019_unfiltered",
+    "gCSI": "gCSI_2019",
+    "PRISM": "PRISM_2020",
+}
 
-
-pset_names = [
-  "GRAY_2017",
-  "UHNBreast_2019",
-  "CTRPv2_2015",
-  "CCLE_2015"
-]
-
-
-rule all:
+rule filter_all:
     input:
-        expand("procdata/{pset_name}.RDS", pset_name=pset_names)
-        # "procdata/pset_dir/michael.RDS",
+        expand("procdata/filtered_{pset_NAME}.RDS", pset_NAME=pset_mapping.keys())
 
 rule preprocess_pset:
     input:
-        pset = "rawdata/{pset_name}.RDS",
+        pset = collect(
+            "rawdata/pharmacosets/{pset_IDENTIFIER}.RDS",
+            pset_IDENTIFIER=lookup(
+                '{pset_NAME}',
+                within=pset_mapping,
+            )
+        )
     output:
-        pset = "procdata/{pset_name}.RDS"
+        pset = "procdata/filtered_{pset_NAME}.RDS"
     log:
-        "logs/preprocess_pset/{pset_name}.log"
+        "logs/preprocess_pset/{pset_NAME}.log"
     script:
-        "scripts/preprocess_pset_{wildcards.pset_name}.R"
+        "workflow/scripts/preprocess_pset.R"
 
 rule download_pset:
     output:
-        pset = "rawdata/{jermiah}.RDS"
+        pset = "rawdata/pharmacosets/{pset_IDENTIFIER}.RDS"
     log:
-        logfile = "logs/download_pset/{jermiah}.log"
-    params:
-        timeout = 3600
+        logfile = "logs/download_pset/{pset_IDENTIFIER}.log"
     script:
-        "scripts/download_pset.R"
-
+        "workflow/scripts/download_pset.sh"

@@ -1,6 +1,34 @@
 # README
 
 
+
+## Rulegraph
+
+``` bash
+snakemake --profile workflow/profiles/labserver --rulegraph | dot -Tsvg > resources/rulegraph.svg
+```
+
+![Rulegraph](./resources/rulegraph.svg)
+
+## Directed Acyclic Graph (DAG)
+
+```  bash
+snakemake --profile workflow/profiles/labserver -F --dag | dot -Tsvg > resources/dag.svg
+```
+
+![DAG](./resources/dag.svg)
+
+## Filegraph
+
+``` bash
+snakemake --profile workflow/profiles/labserver  --filegraph | dot -Tsvg > resources/filegraph.svg
+```
+
+![filegraph](./resources/filegraph.svg)
+
+
+## Introduction
+
 This repository contains scripts to run a meta-analysis of biomarkers from in vitro PharmacoGx datasets on HPC or the cloud. As all data is available, not just summary statistics for this analysis, we use mixed-linear models to come up with consensus estimates for the correlation between a gene expression and drug response across the in-vitro data, either pan-cancer of within a particular tissue type.  
 
 **Unfortunately, the HPC pipeline does not currently work using the latest version of Snakemake, due to a bug in group-job dispatch. However, there are example scripts for running these jobs on Azure cloud services in the directory**

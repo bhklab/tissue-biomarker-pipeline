@@ -11,11 +11,14 @@ version = "0.1.0"
 dag = "snakemake -F --dag | dot -Tsvg > resources/dag.svg"
 rulegraph = "snakemake -F --rulegraph | dot -Tsvg > resources/rulegraph.svg"
 filegraph = "snakemake -F --filegraph | dot -Tsvg > resources/filegraph.svg"
-graphs = { depends_on = [
+graphs = { depends-on = [
   "dag",
   "rulegraph",
   "filegraph",
 ], description = "Generate all the graphs" }
+
+snake = "snakemake  --printshellcmds --show-failed-logs --rerun-incomplete"
+clean = "rm -rf procdata logs .snakemake" # rawdata download is expensive..
 
 
 [dependencies]
@@ -26,4 +29,8 @@ r-pak = ">=0.8.0,<0.9"
 radian = ">=0.6.13,<0.7"
 snakemake = ">=8.20.5,<9"
 r-deps = ">=0.4.0,<0.5"
+graphviz = ">=12.0.0,<13"
+
+[pypi-dependencies]
+orcestra-downloader = ">=0.11.0, <0.12"
 
