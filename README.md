@@ -1,5 +1,10 @@
 # README
 
+## Run:
+
+```bash
+pixi run snake
+```
 
 
 ## Rulegraph
