@@ -4,25 +4,13 @@
 
 ## Rulegraph
 
-``` bash
-snakemake --profile workflow/profiles/labserver --rulegraph | dot -Tsvg > resources/rulegraph.svg
-```
-
 ![Rulegraph](./resources/rulegraph.svg)
 
 ## Directed Acyclic Graph (DAG)
 
-```  bash
-snakemake --profile workflow/profiles/labserver -F --dag | dot -Tsvg > resources/dag.svg
-```
-
 ![DAG](./resources/dag.svg)
 
 ## Filegraph
-
-``` bash
-snakemake --profile workflow/profiles/labserver  --filegraph | dot -Tsvg > resources/filegraph.svg
-```
 
 ![filegraph](./resources/filegraph.svg)
 
